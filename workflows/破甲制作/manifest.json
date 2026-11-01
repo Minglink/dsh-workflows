@@ -1,0 +1,99 @@
+{
+  "format": 1,
+  "kind": "dsh-workflow-lite.workflow",
+  "plugin": "0.9.0",
+  "exportedAt": "2026-11-01T04:46:27.008Z",
+  "workflow": {
+    "name": "破甲制作"
+  },
+  "current": 1,
+  "versions": [
+    {
+      "n": 1,
+      "createdAt": 1793508374251,
+      "note": "",
+      "nodeCount": 15
+    }
+  ],
+  "assets": [],
+  "skills": [
+    {
+      "name": "jailbreak-research",
+      "source": "user-agents",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "bytes": 38282,
+          "sha256": "26400a148c6a73c7a52f7f32a72d38acd72753221488750d1944a6be1e256d59"
+        },
+        {
+          "path": "scripts/best_responses_extractor.py",
+          "bytes": 19087,
+          "sha256": "e9ab91102dc137ebd21f0e28613e825c9797167dfb4698e714598ab35374fd50"
+        },
+        {
+          "path": "scripts/frame_permutation_tester.py",
+          "bytes": 56975,
+          "sha256": "63932a8d6f037637a3372a1b0b07b02f84a895e9aa52644e1c04d84e65956573"
+        },
+        {
+          "path": "scripts/jailbreak_tester.py",
+          "bytes": 45644,
+          "sha256": "0e8e7f16c4a285a2fddd9a2a50a91701a58ff1ca0d2a94795430e99fa81e737c"
+        },
+        {
+          "path": "scripts/multi_turn_tester.py",
+          "bytes": 30550,
+          "sha256": "ea67f26521d34f3e5c821a134d3264a7b020caa92dc3c7a852883fa8092dc1bf"
+        },
+        {
+          "path": "scripts/probe_runner.py",
+          "bytes": 93330,
+          "sha256": "82d117b8ffaee01fdb605d9a9ed6dbf2a648e3e61a586bc78901f42989d21491"
+        },
+        {
+          "path": "scripts/prompt_optimizer.py",
+          "bytes": 17374,
+          "sha256": "143623c3d87dfdb8ce673793b4fbc1123f366a4e765a33f1ed5caa637fadbb6f"
+        },
+        {
+          "path": "scripts/refusal_analyzer.py",
+          "bytes": 29906,
+          "sha256": "a5ae0a22ae1c08708e61ff1b2101932f296a69ffa910426f9a6cf587845e6864"
+        },
+        {
+          "path": "scripts/root_stem_extractor.py",
+          "bytes": 23367,
+          "sha256": "c983a43b99759f46d2d8cf08fceafa7d83ca1f9bef2727775a48369a0bab3f97"
+        },
+        {
+          "path": "scripts/usage_guide_generator.py",
+          "bytes": 20347,
+          "sha256": "59e1c95fed51c1feac954955f2da8b0fab508de23b076775e4b3fd82ebcf0e25"
+        },
+        {
+          "path": "templates/hybrid-frame-template.md",
+          "bytes": 10135,
+          "sha256": "0cafd2f62ab6a1ff8c28cb102be6019a3b00a442f18a75ff8ff4acaf312d5643"
+        },
+        {
+          "path": "templates/identity-system-template.md",
+          "bytes": 42897,
+          "sha256": "fb136e1e9266d298ef64f7adedf53750963ac6cfbd84afd6fa159ca2f490d53e"
+        },
+        {
+          "path": "templates/push-prompt-lib.md",
+          "bytes": 10394,
+          "sha256": "d05d31ec3d22ca0f7a9b044ccad425812ae3b691c3b02425d8fd2beb91536a93"
+        },
+        {
+          "path": "templates/reference-examples.md",
+          "bytes": 25034,
+          "sha256": "3b1d75792b3cbed24939f2117af785881a69866310e4e00f0db580be8814772d"
+        }
+      ]
+    }
+  ],
+  "memories": [],
+  "external": []
+}
