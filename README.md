@@ -1,16 +1,16 @@
 <div align="center">
 
-# dsh-jailbreak-workflows
+# dsh-workflows
 
-**[dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 插件的官方工作流合集**
+**工作流仓库 —— 现成的 `.wflite.zip` 工作流合集**
 
-工作流仓库 · 由 [MingLin](https://github.com/Minglink) 维护
+由 [MingLin](https://github.com/Minglink) 维护 · 配合 [dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 插件使用
 
 </div>
 
 ---
 
-这里存放配合 [dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 插件使用的现成工作流包（`.wflite.zip`），下载后导入插件即可直接运行。
+这里存放配合 [dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 插件使用的现成工作流包（`.wflite.zip`），覆盖各种场景，下载后导入插件即可直接运行。破甲制作是第一个上架的工作流，后续持续补充其他主题。
 
 > 插件本体与使用文档见项目仓库：**https://github.com/Minglink/dsh-jailbreak-workflow**
 
