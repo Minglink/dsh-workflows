@@ -1,7 +1,7 @@
 {
   "format": 1,
   "kind": "dsh-workflow-lite.workflow",
-  "plugin": "0.9.0",
+  "plugin": "0.10.0",
   "exportedAt": "2026-11-01T04:46:27.008Z",
   "workflow": {
     "name": "破甲制作"
