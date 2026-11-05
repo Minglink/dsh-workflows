@@ -1,0 +1,572 @@
+{
+  "format": 1,
+  "n": 1,
+  "createdAt": 1793894520707,
+  "note": "破甲逆向工作流",
+  "document": {
+    "nodes": [
+      {
+        "id": "demand",
+        "type": "wfNode",
+        "position": {
+          "x": 80,
+          "y": 80
+        },
+        "data": {
+          "label": "① 需求入口",
+          "description": "L0 需求入口层：不设激活词、口语归一化、目标绑定、缺参三级兜底",
+          "icon": "idea",
+          "color": "blue",
+          "prompt": "梳理 dsh-pojia-toolkit 的**第 0 层：需求入口**。这一层回答：老板一句话怎么进来、被收成什么、缺东西时怎么办。\n\n数据源（都要真读，不许凭印象）：\n- `E:/WorkSpace/projects/07_internal_tools/dsh-pojia-toolkit/lib/health.js`（82 行，不设激活词的三条理由在这里）\n- `prompts/kernel.md`（2402 B，立场层）\n- `prompts/operator.md`（8868 B，操作稿）\n- `manifest/workflows.json`（27 条链的 `intake` 步判据）\n\n要写清五件事，每件挂原文：\n\n1. **入口形态**：插件不设激活词。抄 `lib/health.js` 里那三条理由原文（常驻层不依赖喊一声 / 激活词必吞真实任务 / 开场协议归操作员，插件自带会越界）。一句话直接进来即可，可带路径 / URL / 进程 / 样本 / 账号。\n\n2. **归一化**：把口语归一成（对象 / 动作 / 产出物）。从 `prompts/kernel.md` 与 `prompts/operator.md` 里抄归一化的原文措辞，不要改写成近义句。\n\n3. **目标绑定**：27 条链的 `intake` 判据措辞各异但都在要求同一件事。并排列出至少 5 条不同写法（ctf / defense / license / reverse / pentest 各一条），说明这是同一道门在不同链里的表达。\n\n4. **缺参处理**：缺参不是停下的理由。顺序是「合理默认值 → 占位符 → 假设标注」。从 intake 判据取原文佐证，并给一条真实的「下一条可复现命令」例子。\n\n5. **这一层不决定走哪条链**：决定权在 `pj_route`（第三层）。需求层只负责把话收成可执行的目标。这个分层是刻意的——同一句话改措辞会走不同链，那是判断层的事。举个实测例子：「把 loopy.exe 的激活校验去掉，写个注册机」→ license；「逆向分析 loopy.exe 看它做什么」→ reverse。\n\n写作要求：判据、理由、措辞一律原文引用；每节末尾标出处（文件 + 行号或字段路径）。不许出现「等等」「略」「以此类推」。\n\n产物 `01-demand.md`：开头五条结论（每条一句），后面挂一张表 `入口形态 | 归一化产出 | 绑定结果 | 缺参时的下一条可复现命令`，四列都填具体内容。\n"
+        }
+      },
+      {
+        "id": "res-01-demand",
+        "type": "wfResource",
+        "position": {
+          "x": 164,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "01-demand.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "assemble",
+        "type": "wfNode",
+        "position": {
+          "x": 428,
+          "y": 80
+        },
+        "data": {
+          "label": "② 宿主与装配",
+          "description": "L1 宿主 32 锚点 + 四事件点；L2 apply 15 步 + 七槽位 + 技能 provider + 工具注册",
+          "icon": "target",
+          "color": "green",
+          "prompt": "梳理 dsh-pojia-toolkit 的**第 1 层：宿主装载层**与**第 2 层：插件装配层**。这两层决定「插件在哪、以什么顺序挂上去、挂不上会怎样」。\n\n## A. 宿主侧（`E:/devtools/dsh/node_modules/@deepseek-ai/dsh/`，真读）\n\n1. **提示词装配管线**：读 `@deepseek-ai/dsh-system-prompt/lib/index.js`，抄出 `SECTION_ORDERS` 全表（32 条，从 `HARNESS_IDENTITY:-1000` 到 `DEPLOYMENT_PERSONA_SUFFIX:10200`）与 `CONTEXT_ORDERS` 全表（7 条）。给出 `assemble()` 的步骤顺序：变量 → merge sections → merge contexts → 收集 toolProviders → 排序 → 校验 complete 唯一 → orderTools → waterfall `system-prompt/assemble`。\n\n2. **排序规则**：抄 `comparePromptSections = (a,b) => a.order - b.order || compareNames(a.name, b.name)` 原文。说明同 order 的字典序 tiebreak 会让 `pojia:tail`（10200）与 `deployment:persona-suffix`（10200）产生确定先后，不是随机。\n\n3. **四个事件派发点**：读 `@deepseek-ai/dsh-agent-loop/lib/index.js`，抄 `agent/status`、`agent/pre-step`、`agent/turn-stopping`、`agent/request` 的行号与原句。特别指出：**pre-step 之前先 `assemble()` 系统提示词，再进 waterfall**——这决定了 armor 层只能在 pre-step 改下一步、改不了本步。\n\n## B. 插件侧（`E:/WorkSpace/projects/07_internal_tools/dsh-pojia-toolkit`）\n\n4. **装配 15 步**：从 `index.js` 的 `export function apply(ctx, config)` 里按真实顺序抄出 15 个 install/register 调用。切函数体必须**括号配平**（体内有嵌套花括号，非贪婪正则会提前截断，会把 15 步切成空）。\n\n5. **总开关**：抄 `CFG.value.enabled` 为 false 时 `apply()` 直接 return 那段。这是唯一灰度/回滚手段——提示词 + provider + armor + 工具一起下线。\n\n6. **七个提示词槽位**：给 `order / name / 作用 / 常量来源` 四列。注意 kernel 与 operator 用的是 `KERNEL_ORDER` / `OPERATOR_ORDER` 常量，不是字面量。\n\n7. **技能 provider**：为什么自注册——默认 filesystem provider 只扫一级子目录，看不见 `skills/<来源>/<技能>/SKILL.md` 两层布局。抄注册那一行（`index.js` 的 `registerSkillProvider`）。\n\n8. **工具注册**：28 个工具的注册入口行号（`registerTools(ctx)` 与 `ctx.tools.register(t)`）。\n\n## C. 一个必须写清的设计取舍\n\n抄 `ctx.get(name, true)` 那段注释：armor 等服务**不写进 `inject`**。原因：任何一个服务缺席时写进 inject 会让整个插件 pending，连人格/工具一起丢掉。取舍是「部分可用优于整体下线」，代价是服务缺席时该层静默不生效，要靠 `pj_selftest` 才能看出来。\n\n产物 `02-assemble.md`：先写 8 条结论（每条一句），后面挂一张表 `层 | 位置（文件:行） | 干什么 | 缺席/失败时会发生什么`。\n"
+        }
+      },
+      {
+        "id": "res-02-assemble",
+        "type": "wfResource",
+        "position": {
+          "x": 512,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "02-assemble.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "route",
+        "type": "wfNode",
+        "position": {
+          "x": 776,
+          "y": 80
+        },
+        "data": {
+          "label": "③ 判断取线",
+          "description": "L3 判断层：pj_route 取线 / pj_squad 编排 / pj_runbook 判据 / pj_case 建案 / 锚点三件，全部真调取回执",
+          "icon": "terminal",
+          "color": "amber",
+          "prompt": "梳理 dsh-pojia-toolkit 的**第 3 层：判断层**。这一层是插件真正「做决定」的地方——老板一句话变成哪条链、哪些角色、哪些判据、哪个案子。\n\n四个工具要真调，拿真回执（不许凭 manifest 编）：\n\n1. **`pj_route(prompt)` 取线**。真跑两类话术，各记回执原文：\n   - 一句「把 loopy.exe 的激活校验去掉，写个注册机」→ 应得 `workflow=license | stages=intake→profile→authority→locate-check→patch-table→keygen→verify→rollback`\n   - 一句「逆向分析 loopy.exe 看它做什么」→ 应得 `workflow=reverse | stages=intake→identify→strings→decompile→xrefs→cfg→hypothesis→deliver`\n   写出打分链：`term_score` 是命中词权重之和（weights 只压低泛词不改命中事实）；排序键 `(-score, -priority, -len(hits), id)`；词全不命中时 `detect_target()` 按扩展名 `TARGET_HINTS` + 读前 8 字节魔数 `MAGIC_HINTS` 兜底；再不行落 `default_workflow=universal`。26 条规则 + 1 条兜底 = 27 条链，不是缺一条。\n\n2. **`pj_squad(play, workflow)` 编排**。对上面两条各跑一次，记回执：`license → triage→locate→patch→deepen（4 段 · 交接字段 16 个）`、`reverse → triage→map→locate→deepen（4 段 · 交接字段 16 个）`。再跑一次 `universal → triage→deepen（2 段 · 交接字段 9 个）`。列出 8 种角色序列各自的条数与 workflow（6/5/5/4/3/2/1/1）。\n\n3. **`pj_runbook(show, pack)` 判据**。对 9 套各跑一次，记回执原文（形状 `<pack> · <title> · 0/N 已勾`）。要点：`show` 的 summary 只给包名+标题+N/M，**步骤正文在 `data.steps`**；`render` 的 `out` 有路径守卫，只能写 `<插件>/.work/reports` 之内，越界报 `[PATH_ESCAPE]`。\n\n4. **`pj_case(open, slug)` 建案**。真建一个案子，记回执（`已建案 <slug> (id=N)`）。说明后续落库全挂 case_id；`claimed_by` 放 cases 表不放 handoffs，理由是「一件调查同一时刻只可能被一人持有」是案子属性。\n\n5. **锚点三件**：`pj_selftest` / `pj_profile` / `pj_skills` 各跑一次记回执。特别写清：**子进程里 armor 层必然 8/8 缺失**（armor 靠宿主事件钩子装配，子进程没有宿主），`pj_selftest` 报「自检漂移 2 项（operator, armorVersion）」是真实发现，不是缺陷。\n\n产物 `03-route.md`：先一张表 `工具 | 调用 | 回执原文 | 这一层为什么需要它`，再一节「为什么路由会分叉」（贴两条不同话术的不同回执），最后一行写本单最终选定的链与角色序列。\n"
+        }
+      },
+      {
+        "id": "res-03-route",
+        "type": "wfResource",
+        "position": {
+          "x": 860,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "03-route.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "triage",
+        "type": "wfNode",
+        "position": {
+          "x": 1124,
+          "y": 80
+        },
+        "data": {
+          "label": "④ 侦察建案",
+          "description": "五角色之 triage：建案落库判型分流，产出身份卡与判型结论",
+          "icon": "bug",
+          "color": "coral",
+          "prompt": "执行**角色 ① triage（侦察兵）**。这一段的唯一职责是回答「这是什么、值不值得深挖、往哪条路走」，不下结论、不碰补丁。\n\n先读 `manifest/roles.json` 里 triage 的 `steps` / `deliverables` / `handoff` / `stop_when` / `forbidden` 五段原文，按它们执行，不许自己加戏。\n\n动作序列（原文照做）：\n1. `pj_case open` 建案（slug 用样本短名）\n2. `pj_sample inspect` 落库：sha256 / 字节数 / 格式 / 架构 / 熵 / 壳判定 / 节表\n3. 判型分流：熵 > 7.2 或命中壳签名 → 判脱壳路线；否则直接静态\n4. `pj_facts add_evidence` 记下判型依据原文（不是结论，是依据）\n\n交付四件（缺一件不算完）：样本 sha256/字节数/格式/架构 · 熵值+壳判定+依据（节名/签名/导入表） · 节表（PE）或段表（ELF） · 判型结论（走静态 / 走脱壳 / 走动态 / 走协议）\n\n**停在这里**：样本已落库且判型结论有依据就停，不深挖任何函数体。\n**禁止**：这一阶段不反编译、不猜校验点、不打补丁。\n\n产物 `04-triage.md` 必须包含：\n- 一段「本单身份卡」：sha256（前 16 位 + 完整）· 字节数 · 格式 · 架构 · 熵 · 壳判定 + 依据\n- 一段「判型结论」：走哪条路 + 为什么（引具体指标阈值）\n- 一段「交接」：按 roles.json 的 handoff 字段逐个填实值（`case` / `sample_sha256` / `format` / `arch` / `entropy` / `packer` / `route`），不留空的就写「未取到」+ 原因\n\n如果本单是 license / game / patch / universal 这类「直定位」路线，triage 之后直接进 ⑥ 定位，跳过测绘——这一点在产出的最后一行显式写出来（`NEXT: 测绘` 或 `NEXT: 直定位`）。\n"
+        }
+      },
+      {
+        "id": "res-04-triage",
+        "type": "wfResource",
+        "position": {
+          "x": 1208,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "04-triage.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "map",
+        "type": "wfNode",
+        "position": {
+          "x": 1472,
+          "y": 80
+        },
+        "data": {
+          "label": "⑤ 测绘",
+          "description": "五角色之 map：ida open/stats/strings/xrefs/funcs 建候选表",
+          "icon": "test",
+          "color": "teal",
+          "prompt": "执行**角色 ② map（测绘员）**。职责：把程序摊成一张可检索的地图，只描地图、不判断哪个是目标。\n\n先读 `manifest/roles.json` 里 map 的 `steps` / `deliverables` / `handoff` / `stop_when` / `forbidden` 五段原文，照做。\n\n动作序列（原文照做）：\n1. `pj_engine call ida open {path}` 载入（一次 open 后续复用同进程池；首拉 worker 约 8.3 秒，之后 3 毫秒）\n2. `stats` 拿函数总数与 imagebase\n3. `strings` 按关键词过滤：`license / 激活 / 卡密 / key / expire / trial / token / http`\n4. 对高价值字符串取 `xrefs`，落到函数\n5. `funcs` 按 size 降序看主干函数\n6. `pj_facts add_point` 记每个候选函数（`kind=function`，带 va）\n\n交付四件：函数总数+imagebase · 高价值字符串→xref→所在函数地址表 · 主干函数清单（地址/名字/大小/调用度） · 每个候选位点的来源证据\n\n**停在这里**：候选函数表有地址、有来源，够下一角色做定位就停。\n**禁止**：不下「这个就是校验函数」的结论——那是定位角色的活。\n\n产物 `05-map.md`：\n- 一张「地图总览」：函数总数 · imagebase · 节表 · worker 首拉耗时与复用耗时\n- 一张「候选表」：`函数地址 | 名字 | 大小 | 命中字符串 | xref 来源 | 为什么进候选`\n- 一段「交接」：按 handoff 字段填实值（`case` / `imagebase` / `function_count` / `candidates[]`），`candidates[]` 至少 3 条，每条带 va + 来源\n\n漏就写「未取到」+ 原因 + 下一条可复现命令，不要留空。\n"
+        }
+      },
+      {
+        "id": "res-05-map",
+        "type": "wfResource",
+        "position": {
+          "x": 1556,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "05-map.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "locate",
+        "type": "wfNode",
+        "position": {
+          "x": 1820,
+          "y": 80
+        },
+        "data": {
+          "label": "⑥ 定位",
+          "description": "五角色之 locate：反编译定分支 + frida 动态确认 + VA→偏移换算",
+          "icon": "database",
+          "color": "pink",
+          "prompt": "执行**角色 ③ locate（定位手）**。职责：从候选里钉死真正的决策点，并用动态证据确认，产出位点表。\n\n先读 `manifest/roles.json` 里 locate 的 `steps` / `deliverables` / `handoff` / `stop_when` / `forbidden` 五段原文，照做。\n\n动作序列（原文照做）：\n1. 对每个候选 `pj_decompile` 取伪代码，读出比较/分支条件\n2. 定位决定性条件：`if (verify(...))` 的成功/失败分支地址\n3. 静态拿不准就上动态：`pj_engine call frida dbg {op: load/bpt/regs/callstack}`\n4. 命中时记寄存器快照（pc / sp / 返回值寄存器）与栈回溯\n5. `pj_va2off` 把 VA 换成文件偏移（补丁必须用偏移）\n6. `pj_facts add_point` 记 check_fn（va + file_off + 条件原文）\n\n交付四件：校验函数地址+关键分支条件原文 · 决定成败的那一条比较（寄存器/内存/返回值） · 动态证据：断点地址+命中寄存器快照+栈回溯 · VA→文件偏移映射\n\n**停在这里**：位点表里每个点都能说清「改这里会发生什么」就停。\n**禁止**：不写补丁、不断言绕过成功——那是改造角色的活。\n\n产物 `06-locate.md`：\n- 一张「位点表」：`VA | 文件偏移 | 函数名 | 分支条件原文 | 改这里会怎样 | 动态证据（断点+寄存器快照）`\n- 一段「VA↔偏移换算回执」：至少一条 `to_offset` 与一条 `to_va` 反核，贴回执原文\n- 一段「交接」：按 handoff 字段填实值（`case` / `check_fn_va` / `check_fn_off` / `branch_cond` / `dynamic_evidence`）\n\n拿不到动态证据就明写「静态推定」+ 为什么上不了动态 + 下一条可复现命令，不要把推定写成实测。\n"
+        }
+      },
+      {
+        "id": "res-06-locate",
+        "type": "wfResource",
+        "position": {
+          "x": 1904,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "06-locate.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "patch",
+        "type": "wfNode",
+        "position": {
+          "x": 2168,
+          "y": 80
+        },
+        "data": {
+          "label": "⑦ 改造",
+          "description": "五角色之 patch：副本上改字节、四件齐全、往返闭环验证回滚",
+          "icon": "chart",
+          "color": "olive",
+          "prompt": "执行**角色 ④ patch（改造手）**。职责：把位点变成字节级补丁，四件齐全并验证。只改副本，原件不动。\n\n先读 `manifest/roles.json` 里 patch 的 `steps` / `deliverables` / `handoff` / `stop_when` / `forbidden` 五段原文，照做。\n\n动作序列（原文照做）：\n1. 复制样本为 `.work` 副本（原件哈希先记进事实库）\n2. `pj_va2off` 复核偏移\n3. `pj_patch read` 读原字节并核对\n4. `pj_patch apply`（`orig_hex` 必须真实，写入失败就是偏移算错）\n5. `pj_patch verify` 回读校验\n6. 重跑原路径看症状是否消失\n7. `pj_patch rollback` 演练一次，再重新 apply\n\n**关键坑（实测）**：`pj_patch apply` 默认拒绝改任何文件，包括 `.work` 里的副本。必须显式传 `in_place: true`。文件名以点开头也救不了。回执原文：`apply 拒绝直接改原件「…」：先复制一份副本再改（推荐），或确认这就是工作副本后显式传 in_place=true`。\n\n交付四件：补丁表（地址|文件偏移|原字节|改后|效果） · applied 回显 · 验证：重跑原症状消失 · 回滚方案+回滚演练回显\n\n**禁止**：不拿 VA 直接写文件（必须过 `pj_va2off`）；不跳过原字节校验；不在原件上改。\n\n产物 `07-patch.md`：\n- 一张「补丁表」：`VA | 文件偏移 | 原字节 | 改后字节 | 效果 | applied 回显`\n- 一段「往返闭环」：`read → apply → verify → read → rollback → read` 六步的真实回执原文（含耗时与哈希），最后一行写「与原始一致=true/false」\n- 一段「回滚方案」：一条可直接复制的命令\n- 一段「交接」：按 handoff 字段填实值（`case` / `patch_ids[]` / `verified` / `rollback`）\n\n如果本单不需要改字节（比如 pure 分析类链），这一段就明写「本单不改造」+ 理由，并把位点表交接给收口，不要硬造一个补丁。\n"
+        }
+      },
+      {
+        "id": "res-07-patch",
+        "type": "wfResource",
+        "position": {
+          "x": 2252,
+          "y": 196
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "07-patch.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "deepen",
+        "type": "wfNode",
+        "position": {
+          "x": 2516,
+          "y": 199
+        },
+        "data": {
+          "label": "⑧ 收口",
+          "description": "五角色之 deepen：契约核对、算法还原、测试向量、pj_report 出报告、标未完成项",
+          "icon": "globe",
+          "color": "violet",
+          "prompt": "执行**角色 ⑤ deepen（收口手）**。职责：把前面所有证据拼成能交付的结论，并明确标出未完成项。\n\n先读 `manifest/roles.json` 里 deepen 的 `steps` / `deliverables` / `handoff` / `stop_when` / `forbidden` 五段原文，照做。\n\n动作序列（原文照做）：\n1. 按契约逐条核对必交字段，缺哪条补哪条\n2. 算法还原：把校验逻辑翻成可运行代码（keygen / 解码器 / 模拟器）\n3. 在线校验：抓端点 + 协议 + 绕过方式（服务端权威时不做硬补丁）\n4. 测试向量：至少 2 组真实输入输出对照\n5. `pj_report` 出报告（报告只写已落库事实）\n\n**本单不需要往回绕**：证据缺就地标「未执行」+ 写下一条可复现命令，不要回头重跑前面的角色。这一条是硬约束——图上没有回边。\n\n**8 种收口按「本单 workflow 的最后一步叫什么」对号入座，不自选**：\n| 收口 | 条数 | 判据原文 | 工具 |\n|---|---|---|---|\n| `deliver` | 14 | 交付物路径可打开，正文里没有占位符残留 | pj_report, pj_bindiff, pj_facts |\n| `report` | 7 | 报告里每条结论都挂着证据文件路径，未执行项单独列成节 | pj_report, pj_facts, pj_bindiff |\n| `writeup` | 1 | 复盘从零可复现：每条命令按顺序贴出且都能跑 | pj_report, pj_bindiff |\n| `rollback` | 1 | 回滚脚本实跑过，回滚后文件哈希等于原始哈希 | pj_va2off, pj_patch, pj_aob |\n| `export` | 1 | 导出文件可打开，条数与抓取记录数一致 | pj_facts, pj_decode, pj_scan |\n| `cite` | 1 | 每条引用都可点开，发布时间与访问时间分开记录 | pj_facts, pj_report |\n| `doc` | 1 | 文档可直接执行：命令块可复制粘贴，参数里没有占位符 | pj_report, pj_bindiff |\n| `synthesize` | 1 | 结论逐条挂来源，互相矛盾处显式标出 | pj_facts, pj_report |\n\n**禁止**：不把未验证的推断写成结论；不补写事实库里没有的证据。\n\n产物 `08-deepen.md`：\n- 开头一行写本单用的是哪种收口（从上面 8 种里选，并说明该 workflow 的最后一步确实叫这个名字）\n- 一张「交付核对表」：`必交项 | 状态（已交/未执行） | 证据路径或命令`，逐项对 roles.json 的 deliverables\n- 一段「测试向量」（若本单涉及算法）：至少 2 组输入→输出对照\n- 一段「未执行项」：每项带下一条可复现命令\n- 最后一行写 `pj_report` 的回执原文（报告路径 + 字节数 + 补丁/位点/证据条数）\n"
+        }
+      },
+      {
+        "id": "res-08-deepen",
+        "type": "wfResource",
+        "position": {
+          "x": 2600,
+          "y": 315
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "08-deepen.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "feedback",
+        "type": "wfNode",
+        "position": {
+          "x": 2864,
+          "y": 199
+        },
+        "data": {
+          "label": "⑨ 回流自评",
+          "description": "L6 回流层：armor 八层分工 + self-score 判定 + 六类故障 + 五件套结构锁 + 本单自评",
+          "icon": "chat",
+          "color": "slate",
+          "prompt": "执行**第 6 层：回流层（反拒答 + 自评 + 重写）**。这是插件与普通工具包最不一样的地方——它不等老板发现答残了，本轮结束自己判一次，判不过就补一轮。\n\n先读这几个文件的**文件头注释与关键分支原文**（不许凭印象）：`lib/armor-projection.js`（579 行）· `lib/armor-stream.js`（422）· `lib/armor-pre-step.js`（370）· `lib/armor-request.js`（410）· `lib/armor-route.js`（335）· `lib/anchor-gate.js`（467）· `lib/armor-stop.js`（225）· `lib/armor-live.js`（602）· `lib/self-score.js`（703）· `lib/guard-fault.js`（466）· `lib/deliver-lock.js`（87）· `lib/refusal-cases.js`（267）。\n\n要写清四件事：\n\n1. **八层的分工**。一张表 `层 | 文件（行数） | 挂哪个宿主事件 | 什么时候动手 | 动手做什么`。必须写出的关键设计：\n   - `armor-projection` 挂 `session/event` 投影成 `pojia:armor`，**八层共读同一份 state，开关互不依赖**\n   - `armor-stop` 补 `pre-step` 的盲区：模型在第 23 步（最后一步）才拒答，此时没有下一步可插\n   - `armor-route` 自 0.2.2 起只能在 `agent/pre-step` 调 `agent.model.select()`，本步不变、下一步生效\n   - `anchor-gate` 同时挂 `pre-step` 与 `request`（prepend），用「首段思考像不像 Minimal、有没有真动手」决定放不放开 `maxTokens`\n\n2. **判定**：`self-score.js` 的 `verdict = refusal.length ? \"refusal\" : fallback.length ? \"fallback\" : \"pass\"`。写清它只判**开头窗口**、命中点前有否定词不算、先剥引述结构（代码块/行内码/表格行）与引号内容。这三条决定了它不会把「不需要绕过」误判成拒答。\n\n3. **六类故障与重写**：`guard-fault.js` 的 `FAULT_KINDS = [\"empty\",\"refuse\",\"degrade\",\"withhold\",\"swap\",\"iq_drop\"]`，每类各自的判定口径与重写指令。\n\n4. **交付结构锁**：`deliver-lock.js` 的五件套 `summary / commands / code / verify / rollback`。为什么没走 response_format 而要交付后校验——因为宿主不保证所有 provider 支持 json_schema。\n\n产物 `09-feedback.md`：\n- 八层表 + 判定公式 + 六类故障表 + 五件套\n- 一节「本单自评」：按六类逐条判本单的 08-deepen.md 有没有命中，命中就写「需重写 + 哪一类 + 重写指令」，没命中就写「六类均未命中」\n- **最后一行二选一**：`NEXT: 补一轮`（自评未过，写明补哪一层、补什么）或 `NEXT: 交付`（自评通过）\n"
+        }
+      },
+      {
+        "id": "res-09-feedback",
+        "type": "wfResource",
+        "position": {
+          "x": 2948,
+          "y": 315
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "09-feedback.md"
+            }
+          ]
+        }
+      },
+      {
+        "id": "deliver",
+        "type": "wfNode",
+        "position": {
+          "x": 3212,
+          "y": 199
+        },
+        "data": {
+          "label": "⑩ 交付落库",
+          "description": "L7 交付落库：核对事实库、pj_report 出报告、收口判据逐条核、产物清单",
+          "icon": "mail",
+          "color": "blue",
+          "prompt": "执行**第 7 层：交付落库**。这是整条链的最后一环，也是「没落库 = 没发生」的落地处。\n\n本步只做落库与核对，不重做分析。若 09-feedback.md 的自评判「六类均未命中」才走到这里；若判「需重写」，图上已经回绕到 08 收口重做，本步应当**根本没被派到**。所以：**如果你收到了这一步的任务，说明自评已过**。开始前先读 `09-feedback.md` 的最后一行确认写的是 `NEXT: 交付`，不是 `NEXT: 补一轮`；如果不是，立刻停，写明「自评未过，本步不应执行」并结束。\n\n动作序列：\n1. **证据落库核对**：`pj_facts stats` 看案子库里本单落了什么（points / patches / evidence / reports 各几条）。**库里查不到的，就是没发生的**——不要替它补写。\n2. **报告落库**：`pj_report` 出最终报告，记回执原文（路径 + 字节数 + 补丁/位点/证据条数）。\n3. **交付核对**：按本单 workflow 对应收口的判据逐条核（8 种收口判据见 08-deepen.md 的表）。核不过的项写进「未执行」节，每项带下一条可复现命令。\n4. **产物清单**：列出本次 run 目录下所有产物文件，附字节数与 sha256 前 16 位（用 `crypto.createHash('sha256')` 现算，不要手抄）。\n\n产物 `10-deliver.md`：\n- 开头「本单收口类型」（8 种之一）+ 该类型的判据原文 + 逐条核对结果（通过/未过）\n- 「事实库回执」：`pj_facts stats` 与 `pj_report` 的原文各一段\n- 「产物清单」表：`文件 | 字节 | sha256 前 16 | 谁写的`\n- 「未执行项」：每项一行 `项 | 原因 | 下一条可复现命令`\n- 末行：`交付完成` 或 `交付未完成（见未执行项）`\n\n**禁止**：不把未验证的推断写成结论；不补写事实库里没有的证据；不把「已写入文件」写成「已验证生效」。\n"
+        }
+      },
+      {
+        "id": "res-10-deliver",
+        "type": "wfResource",
+        "position": {
+          "x": 3296,
+          "y": 315
+        },
+        "data": {
+          "items": [
+            {
+              "kind": "file",
+              "value": "10-deliver.md"
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "demand->res-01-demand",
+        "source": "demand",
+        "target": "res-01-demand",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "assemble->res-02-assemble",
+        "source": "assemble",
+        "target": "res-02-assemble",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "route->res-03-route",
+        "source": "route",
+        "target": "res-03-route",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "triage->res-04-triage",
+        "source": "triage",
+        "target": "res-04-triage",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "map->res-05-map",
+        "source": "map",
+        "target": "res-05-map",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "locate->res-06-locate",
+        "source": "locate",
+        "target": "res-06-locate",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "patch->res-07-patch",
+        "source": "patch",
+        "target": "res-07-patch",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "deepen->res-08-deepen",
+        "source": "deepen",
+        "target": "res-08-deepen",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "demand->assemble",
+        "source": "demand",
+        "target": "assemble",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "assemble->route",
+        "source": "assemble",
+        "target": "route",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "route->triage",
+        "source": "route",
+        "target": "triage",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "triage->map#测绘",
+        "source": "triage",
+        "target": "map",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "测绘"
+        }
+      },
+      {
+        "id": "triage->locate#直定位",
+        "source": "triage",
+        "target": "locate",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "直定位"
+        }
+      },
+      {
+        "id": "triage->deepen#直接收口",
+        "source": "triage",
+        "target": "deepen",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "直接收口"
+        }
+      },
+      {
+        "id": "map->locate",
+        "source": "map",
+        "target": "locate",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "locate->patch#待改造",
+        "source": "locate",
+        "target": "patch",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "待改造"
+        }
+      },
+      {
+        "id": "locate->deepen#不改造",
+        "source": "locate",
+        "target": "deepen",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "不改造"
+        }
+      },
+      {
+        "id": "patch->deepen",
+        "source": "patch",
+        "target": "deepen",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-01-demand->triage",
+        "source": "res-01-demand",
+        "target": "triage",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-02-assemble->route",
+        "source": "res-02-assemble",
+        "target": "route",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-03-route->triage",
+        "source": "res-03-route",
+        "target": "triage",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-04-triage->map",
+        "source": "res-04-triage",
+        "target": "map",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-05-map->locate",
+        "source": "res-05-map",
+        "target": "locate",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-06-locate->patch",
+        "source": "res-06-locate",
+        "target": "patch",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-07-patch->deepen",
+        "source": "res-07-patch",
+        "target": "deepen",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "feedback->res-09-feedback",
+        "source": "feedback",
+        "target": "res-09-feedback",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "deepen->feedback",
+        "source": "deepen",
+        "target": "feedback",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "res-08-deepen->feedback",
+        "source": "res-08-deepen",
+        "target": "feedback",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "feedback->deepen#补一轮",
+        "source": "feedback",
+        "target": "deepen",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "补一轮"
+        }
+      },
+      {
+        "id": "deliver->res-10-deliver",
+        "source": "deliver",
+        "target": "res-10-deliver",
+        "sourceHandle": null,
+        "targetHandle": null
+      },
+      {
+        "id": "feedback->deliver#交付",
+        "source": "feedback",
+        "target": "deliver",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "data": {
+          "when": "交付"
+        }
+      },
+      {
+        "id": "res-09-feedback->deliver",
+        "source": "res-09-feedback",
+        "target": "deliver",
+        "sourceHandle": null,
+        "targetHandle": null
+      }
+    ],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}

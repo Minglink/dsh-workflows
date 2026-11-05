@@ -1,0 +1,22 @@
+{
+  "format": 1,
+  "kind": "dsh-workflow-lite.workflow",
+  "plugin": "0.11.0",
+  "exportedAt": "2026-11-05T16:02:38.506Z",
+  "workflow": {
+    "name": "pojia-fullflow"
+  },
+  "current": 1,
+  "versions": [
+    {
+      "n": 1,
+      "createdAt": 1793894520707,
+      "note": "破甲逆向工作流",
+      "nodeCount": 20
+    }
+  ],
+  "assets": [],
+  "skills": [],
+  "memories": [],
+  "external": []
+}
