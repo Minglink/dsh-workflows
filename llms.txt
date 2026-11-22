@@ -18,6 +18,7 @@
 - [arxiv-probes.md](./docs/research/arxiv-probes.md): 24 arXiv papers on adaptive red-teaming (Red-Bandit, CRT, Rainbow Teaming, QD Evolution, Crescendo, Tempest) and judge calibration (StrongREJECT, CALM, CJE, Preference Leakage).
 - [arxiv-inference.md](./docs/research/arxiv-inference.md): 28 arXiv papers on generation exploitation, sampling/min-p/LZ-penalty, long-session Safe Turn Depth decay, and CoT reasoning safety.
 - [arxiv-frontier-2026.md](./docs/research/arxiv-frontier-2026.md): Frontier synthesis covering Best-of-N (`2412.03556`), ActorAttack (`2410.12876`), X-Teaming (`2504.13203`), AJAR (`2601.10971`), CoT Hijacking (`2510.26418`), H-CoT (`2502.12893`), and Agent/MCP security benchmarks (MSB, MCP-TDP, MCPSecBench, ASPIRE).
+- [github-redteam-ecosystem.md](./docs/research/github-redteam-ecosystem.md): Comparison & interop guide against NVIDIA garak, Microsoft PyRIT, Promptfoo, JailbreakBench, HarmBench, EasyJailbreak, DeepTeam, and Meta PurpleLlama/CyberSecEval (also distilled in `jb-distillery` Volume 6 `v6-opensource-redteam.md`).
 - [web-academic.md](./docs/research/web-academic.md) & [web-community.md](./docs/research/web-community.md): Academic tactic cards and community ecosystem map.
 
 ## Tooling & Verification (`scripts/`)

@@ -31,7 +31,7 @@
 | 工作流 | 定位 | 规模（节点 / 边） | 内置 Skill 与资源 | 下载 |
 |---|---|---|---|---|
 | **破甲制作** | 顶级模型漏洞与边界研究十步多回路流水线（护栏/拓扑侦察 → 孪生锐度基线 → 多臂自适应回调 → 推理/CoT/层级测绘 → 三维概念锥建模 → 五架构合成 → BoN/多轮压测 → 双裁判 CJE 校准与消融 → 报告 → 军械库回灌） | v3（27 节点 / 69 边） | `jailbreak-research`（10 脚本 + 6 模板） | [破甲制作.wflite.zip](./workflows/破甲制作.wflite.zip) |
-| **破甲炼化** | 公开破甲词与实战回灌 → WildTeaming Mine→Compose 机制交叉配方 → 连续评分尺验证 → 五架构结构化军械库 | v2（22 节点 / 41 边） | `jb-distillery`（五卷底册 + 词条卡） | [破甲炼化.wflite.zip](./workflows/破甲炼化.wflite.zip) |
+| **破甲炼化** | 公开破甲词与实战回灌 → WildTeaming Mine→Compose 机制交叉配方 → 连续评分尺验证 → 五架构结构化军械库 | v2（22 节点 / 41 边） | `jb-distillery`（六卷底册 + 词条卡） | [破甲炼化.wflite.zip](./workflows/破甲炼化.wflite.zip) |
 | **pojia-fullflow** | 二进制 / 移动端 / 协议 / 加密逆向全流程（依赖本地 `dsh-pojia-toolkit` 的 `pj_*` 工具） | v1（20 节点 / 32 边） | 10 步自足任务正文（无外部 Skill） | [pojia-fullflow.wflite.zip](./workflows/pojia-fullflow.wflite.zip) |
 
 ---
@@ -164,6 +164,18 @@ python scripts/pack_workflows.py --check
 # 校验并自动更新 manifest.json 哈希、重打所有 .wflite.zip
 python scripts/pack_workflows.py
 ```
+
+## 🌐 开源红队生态对标与双仓共生
+
+本项目与 [Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 构成「**可视化画布插件 + 可复现研究工作流合集**」双仓共生架构，吸收并兼容全球主流开源 LLM 红队与安全评测生态（详见 [github-redteam-ecosystem.md](./docs/research/github-redteam-ecosystem.md)）：
+
+| 生态对标项目 | 核心范式 | 在 DSH 双仓中的吸收与互补 |
+|---|---|---|
+| [NVIDIA/garak](https://github.com/NVIDIA/garak) | Probe–Buff–Detector 三段解耦 | 映射到 `probe` / `bprobe` / `verify` 解耦与 BoN 微扰层 |
+| [microsoft/pyrit](https://github.com/microsoft/pyrit) | 80+ Converter + 多轮 Orchestrator + Memory | 对应 `generate` 变异算子、`stress_test` 与 `transfer_back.md` 战绩回灌 |
+| [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | 50+ 漏洞插件与 RAG/Agent/MCP 声明式断言 | 互补于 `recon` / `infer_probe`（MCP 攻击面）与第五架构工作台教令 |
+| [JailbreakBench](https://github.com/JailbreakBench/jailbreakbench) / [HarmBench](https://github.com/centerforaisafety/HarmBench) | 标准化行为集、良性对照与统一裁判 | 对齐 `probe` Benign 孪生锐度 $\Delta$ 与 `verify` 双裁判 CJE 校准 |
+| [EasyJailbreak](https://github.com/EasyJailbreak/EasyJailbreak) / [PurpleLlama](https://github.com/meta-llama/PurpleLlama) | 四元演化范式 + 误拒率（FRR）双轨评测 | 驱动 `generate↔verify` 演化回边、`compose` 交叉与 $\Delta\text{OR}/\Delta\text{JB}$ 权衡 |
 
 ## 💬 开源社区与交流（O站 · openorigin）
 

@@ -36,6 +36,7 @@ description: 把公开渠道的破甲提示词语料系统性"炼化"为结构�
 | 卷三 | `library/v3-cn-models.md` | Google/Gemma/Qwen/Kimi/OpenCode 影子系列 |
 | 卷四 | `library/v4-workbench-specs.md` | LongCat/Step/Hy4/MiMo/Nemotron/Mistral 工作台规范组 |
 | 卷五 | `library/v5-agent-distros.md` | Zhipu GLM/ZCode 全谱系 ＋ Meta Muse ＋ Stealth 影子模型 ＋ raghavraut |
+| 卷六 | `library/v6-opensource-redteam.md` | GitHub 主流开源红队框架与标准基准机制集（garak / PyRIT / promptfoo / JailbreakBench / HarmBench / EasyJailbreak / DeepTeam / CyberSecEval） |
 
 **卷的规矩：**
 - 每卷文件头部有一行版本行：`<!-- 卷版本 vN · 炼于 YYYY-MM · 源: … -->`

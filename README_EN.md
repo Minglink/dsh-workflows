@@ -31,7 +31,7 @@ All workflows in this repository are validated against the `dsh-workflow-lite 0.
 | Workflow | Scope & Research Focus | Graph Scale | Bundled Skill & Assets | Download |
 |---|---|---|---|---|
 | **破甲制作 (LLM Red-Teaming Research)** | 10-stage multi-loop LLM safety & vulnerability evaluation pipeline grounded in 90+ arXiv 2024–2026 papers | **v3** (27 nodes / 69 edges) | `jailbreak-research` (10 scripts + 6 templates) | [破甲制作.wflite.zip](./workflows/破甲制作.wflite.zip) |
-| **破甲炼化 (Prompt Refinery & Armory)** | Structured taxonomy, WildTeaming `Mine→Compose` crossover recipes, and continuous-score validation for public red-teaming corpora | **v2** (22 nodes / 41 edges) | `jb-distillery` (5-volume library + entry card) | [破甲炼化.wflite.zip](./workflows/破甲炼化.wflite.zip) |
+| **破甲炼化 (Prompt Refinery & Armory)** | Structured taxonomy, WildTeaming `Mine→Compose` crossover recipes, and continuous-score validation for public red-teaming corpora | **v2** (22 nodes / 41 edges) | `jb-distillery` (6-volume library + entry card) | [破甲炼化.wflite.zip](./workflows/破甲炼化.wflite.zip) |
 | **pojia-fullflow (Reverse Engineering)** | End-to-end binary / mobile / protocol / crypto reverse-engineering workflow (requires local `dsh-pojia-toolkit` `pj_*` tools) | **v1** (20 nodes / 32 edges) | 10 self-contained step prompts | [pojia-fullflow.wflite.zip](./workflows/pojia-fullflow.wflite.zip) |
 
 ---
@@ -115,6 +115,15 @@ python scripts/render_canvas.py
 ```
 
 ---
+
+## 🌐 Open-Source Red-Teaming Ecosystem & Dual-Repo Symbiosis
+
+Together with [Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) (visual canvas plugin), this repository forms a symbiotic **Canvas Plugin + Reproducible Research Pack** ecosystem that distills and complements industry-standard GitHub red-teaming frameworks (see [github-redteam-ecosystem.md](./docs/research/github-redteam-ecosystem.md) and Volume 6 `v6-opensource-redteam.md`):
+
+- **[NVIDIA/garak](https://github.com/NVIDIA/garak)** (`Probe–Buff–Detector` separation) → mirrored in `probe` / `bprobe` / `verify` & BoN perturbation layers.
+- **[microsoft/pyrit](https://github.com/microsoft/pyrit)** (80+ Converters, multi-turn Orchestrators, persistent Memory) → mirrored in `stress_test` & `transfer_back.md` closed-loop armory feedback.
+- **[promptfoo/promptfoo](https://github.com/promptfoo/promptfoo)** (50+ vulnerability plugins, Agent/MCP red-teaming) → aligned with `infer_probe` MCP surface & 5th-architecture workspace overlays.
+- **[JailbreakBench](https://github.com/JailbreakBench/jailbreakbench) / [HarmBench](https://github.com/centerforaisafety/HarmBench) / [EasyJailbreak](https://github.com/EasyJailbreak/EasyJailbreak) / [PurpleLlama](https://github.com/meta-llama/PurpleLlama)** → grounded into Benign-Twin sharpness $\Delta$, FRR trade-offs, 4-stage evolutionary loops, and dual-judge CJE calibration.
 
 ## 💬 Open-Source Community (OpenOrigin / O-Station)
 

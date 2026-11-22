@@ -2,7 +2,7 @@
   "format": 1,
   "kind": "dsh-workflow-lite.workflow",
   "plugin": "0.11.0",
-  "exportedAt": "2026-11-22T20:41:39.000Z",
+  "exportedAt": "2026-11-22T21:19:31.000Z",
   "workflow": {
     "name": "破甲炼化"
   },
@@ -29,8 +29,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "bytes": 12647,
-          "sha256": "3a276f6b1e413625569eb49c47a9d033b9002fd6b641743e1091886c80f03145"
+          "bytes": 12855,
+          "sha256": "b3032b901b55c8544f0b3d57d03d8438ba38dbb891e3dd2c3b6177f0b1830526"
         },
         {
           "path": "library/v1-core-meta.md",
@@ -56,6 +56,11 @@
           "path": "library/v5-agent-distros.md",
           "bytes": 57222,
           "sha256": "0bbb208511ffc1ccfaa18068ce0f4c9789c1513c3b73689c93ba7ca72799c6e8"
+        },
+        {
+          "path": "library/v6-opensource-redteam.md",
+          "bytes": 12240,
+          "sha256": "358dc9ebf8eb0b6bb9b4cdb0338d72f5c09a37f5ceb8512e98f6b30a9fbe502f"
         },
         {
           "path": "templates/entry-card.md",
