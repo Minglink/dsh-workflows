@@ -4,11 +4,15 @@
 
 **工作流仓库 —— 面向 DeepSeek Harness 的现成 `.wflite.zip` 工作流合集**
 
-**中文** | [English](./README_EN.md) | [AI 检索索引 (`llms.txt`)](./llms.txt)
+**中文** | [English](./README_EN.md) | [AI 检索索引 (`llms.txt`)](./llms.txt) · [O站（openorigin）AI 开源论坛](https://openorigin.link/)（邀请码 `CESFAVBR`）· QQ 群 `1108766989`
 
-[![dsh-jailbreak-workflow](https://img.shields.io/badge/DeepSeek%20Harness-0.2.x-4d6bfe.svg)](https://github.com/deepseek-ai/deepseek-harness)
+[![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-0.2.x-4d6bfe.svg)](https://github.com/deepseek-ai/deepseek-harness)
 [![dsh-workflow-lite](https://img.shields.io/badge/dsh--workflow--lite-0.11.0-0ea5e9.svg)](https://github.com/Minglink/dsh-jailbreak-workflow)
 [![插件项目](https://img.shields.io/badge/%E6%8F%92%E4%BB%B6%E9%A1%B9%E7%9B%AE-dsh--jailbreak--workflow-3e7ce4.svg)](https://github.com/Minglink/dsh-jailbreak-workflow)
+[![Workflows](https://img.shields.io/badge/Workflow%20Packs-3%20Bundles-6366f1.svg)](#📋-工作流总览)
+[![arXiv Papers](https://img.shields.io/badge/arXiv%20Papers-90%2B-b31b1b.svg)](./docs/research/)
+[![O站 openorigin](https://img.shields.io/badge/O%E7%AB%99%20openorigin-AI%E5%BC%80%E6%BA%90%E8%AE%BA%E5%9D%9B-f59e0b.svg)](https://openorigin.link/)
+[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-1108766989-12b7f5.svg)](https://openorigin.link/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](./LICENSE)
 
 由 [MingLin](https://github.com/Minglink) 维护
@@ -160,6 +164,14 @@ python scripts/pack_workflows.py --check
 # 校验并自动更新 manifest.json 哈希、重打所有 .wflite.zip
 python scripts/pack_workflows.py
 ```
+
+## 💬 开源社区与交流（O站 · openorigin）
+
+欢迎加入 **[O站（openorigin）· AI 技术开源分享论坛](https://openorigin.link/)**，交流大模型安全评测、红队方法论、arXiv 前沿论文复现与 DeepSeek Harness 工作流开发：
+
+- **官方论坛**：[https://openorigin.link/](https://openorigin.link/)（注册邀请码：`CESFAVBR`）
+- **技术交流 QQ 群**：`1108766989`
+- **配套插件**：[Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow)
 
 ## 🔗 相关项目
 

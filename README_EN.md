@@ -4,11 +4,14 @@
 
 **Ready-to-Run `.wflite.zip` Workflow Collection for DeepSeek Harness**
 
-[中文](./README.md) | **English** | [AI Index (`llms.txt`)](./llms.txt)
+[中文](./README.md) | **English** | [AI Index (`llms.txt`)](./llms.txt) · [OpenOrigin AI Forum](https://openorigin.link/) (invite: `CESFAVBR`) · QQ Group `1108766989`
 
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-0.2.x-4d6bfe.svg)](https://github.com/deepseek-ai/deepseek-harness)
 [![dsh-workflow-lite](https://img.shields.io/badge/dsh--workflow--lite-0.11.0-0ea5e9.svg)](https://github.com/Minglink/dsh-jailbreak-workflow)
 [![Plugin](https://img.shields.io/badge/Plugin-dsh--jailbreak--workflow-3e7ce4.svg)](https://github.com/Minglink/dsh-jailbreak-workflow)
+[![Workflows](https://img.shields.io/badge/Workflow%20Packs-3%20Bundles-6366f1.svg)](#📋-workflow-catalog)
+[![arXiv Papers](https://img.shields.io/badge/arXiv%20Papers-90%2B-b31b1b.svg)](./docs/research/)
+[![OpenOrigin Forum](https://img.shields.io/badge/OpenOrigin-AI%20Open--Source%20Forum-f59e0b.svg)](https://openorigin.link/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](./LICENSE)
 
 Maintained by [MingLin](https://github.com/Minglink)
@@ -110,6 +113,16 @@ python scripts/pack_workflows.py
 # Regenerate offline canvas preview images from workflow JSONs
 python scripts/render_canvas.py
 ```
+
+---
+
+## 💬 Open-Source Community (OpenOrigin / O-Station)
+
+Join **[OpenOrigin (O-Station) · AI Tech Open-Source Forum](https://openorigin.link/)** to discuss LLM safety evaluation, red-teaming research, arXiv paper reproductions, and DeepSeek Harness workflows:
+
+- **Official Forum**: [https://openorigin.link/](https://openorigin.link/) (invite code: `CESFAVBR`)
+- **QQ Group**: `1108766989`
+- **Companion Plugin**: [Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow)
 
 ---
 

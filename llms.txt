@@ -24,5 +24,9 @@
 - [scripts/pack_workflows.py](./scripts/pack_workflows.py): Validates `dsh-workflow-lite 0.11.0` schema, node colors/icons, edge integrity, skill SHA-256 hashes, and `.wflite.zip` parity. Run `python scripts/pack_workflows.py --check` for read-only verification.
 - [scripts/render_canvas.py](./scripts/render_canvas.py): Offline renderer generating DSH dark-theme WebP canvas previews (`assets/canvas-v3.webp`, `assets/canvas-distillery-v2.webp`) directly from workflow JSON.
 
+## Community & Forum
+- Official AI Open-Source Forum (O站 / OpenOrigin): https://openorigin.link/ (invite code: `CESFAVBR`, QQ Group: `1108766989`)
+- Companion Plugin: https://github.com/Minglink/dsh-jailbreak-workflow
+
 ## Keywords
-DeepSeek Harness, dsh-workflow-lite, LLM red teaming, AI safety evaluation, refusal geometry, boundary probing, Chain-of-Thought safety, MCP security, adversarial robustness, arXiv red-teaming workflows, reverse engineering.
+DeepSeek Harness, dsh-workflow-lite, LLM red teaming, AI safety evaluation, refusal geometry, boundary probing, Chain-of-Thought safety, MCP security, adversarial robustness, arXiv red-teaming workflows, reverse engineering, openorigin.
