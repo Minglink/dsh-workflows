@@ -26,6 +26,38 @@ All workflows in this repository are validated against the `dsh-workflow-lite 0.
 
 ---
 
+## 📊 Empirical Benchmarks & Symbiotic Architecture
+
+> All charts and metrics below are rendered directly from verified `jailbreak-research` baselines and our 90+ arXiv 2024–2026 research archives (reproducible offline via `python scripts/render_charts.py`):
+
+![Empirical Benchmarks & Architecture Dashboard: multi-stage pipeline progression, Safe Turn Depth retention line chart, workflow scale evolution, and judge calibration variance](./assets/metrics-dashboard.webp)
+
+| Key Research Metric | Empirical / Literature Evidence | Workflow Mechanism |
+|---|---|---|
+| **Single-Frame → Multi-Stage Gain** | `19%` (baseline) → `36%` (single) → `60%` (hybrid) → `91%` (8-frame) → `94.5%` (+Crescendo) | `破甲制作 v3`: 5-arch `generate` + BoN / Crescendo `stress_test` |
+| **Long-Session Constraint Decay** | Prohibition rules drop `73% → 33%` (turns 5→16); lossless STD recovery (`arXiv:2604.20911`) | `infer_probe` STD profiling + `manual.md` 5–8 turn re-injection schedule |
+| **Judge Calibration Variance** | `96% vs 2.7%` across judges; `100% vs 50%` over 100 resamples (`arXiv:2610.26595`) | `verify` frozen judge card, cross-family $\kappa$ + ≥10% CJE Oracle slice |
+| **Topology Evolution** | `破甲制作` 15→18→**27 nodes / 69 edges**; `破甲炼化` 19→**22 nodes / 41 edges** | Automated `pack_workflows.py --check` CI validation |
+
+```mermaid
+flowchart LR
+  subgraph Plugin["dsh-jailbreak-workflow (DSH 0.11.0 Plugin)"]
+    UI["React Flow Canvas · Plan Compiler · Live Run Tracking"]
+  end
+  subgraph Packs["dsh-workflows (Research Workflow Collection)"]
+    A["破甲制作 v3<br/>10 stages · 27 nodes · 69 edges"]
+    B["破甲炼化 v2<br/>8 stages · 22 nodes · 41 edges · 6-vol library"]
+    C["pojia-fullflow v1<br/>10 stages · 20 nodes · 32 edges"]
+    A -- "transfer_back.md feedback" --> B
+    B -- "TRANSFER-NOTES.md 6 ammo types" --> A
+  end
+  Forum["OpenOrigin (openorigin.link)<br/>AI Open-Source Forum"]
+  UI -- "Import .wflite.zip" --> Packs
+  Packs -. "Open Research & Community" .-> Forum
+```
+
+---
+
 ## 📋 Workflow Catalog
 
 | Workflow | Scope & Research Focus | Graph Scale | Bundled Skill & Assets | Download |

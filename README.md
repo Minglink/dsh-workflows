@@ -26,6 +26,38 @@
 > [!TIP]
 > 还没装插件？去 [dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 看安装方法——网页版一条命令装好。
 
+## 📊 实证数据仪表板与双仓闭环架构
+
+> 以下图表与指标均基于本仓库 `jailbreak-research` 实证基线与 `docs/research/` 收录的 90+ 篇 arXiv 2024–2026 公开论文数据生成（支持运行 `python scripts/render_charts.py` 离线复现）：
+
+![dsh-workflows 实证数据与架构演进仪表板：多阶段流水线演进柱状图、长会话 Safe Turn Depth 折线图、工作流拓扑演进规模与双裁判校准漂移警示](./assets/metrics-dashboard.webp)
+
+| 核心研究指标 | 实证基线 / 论文依据 | 落地到的工作流机制 |
+|---|---|---|
+| **单帧 → 帧排列 + 多轮跃迁** | `19%`（基线）→ `36%`（单帧）→ `60%`（混合帧）→ `91%`（8 帧排列）→ `94.5%`（+Crescendo） | `破甲制作 v3`：`generate` 五架构 + `stress_test` BoN / Crescendo 压测 |
+| **长会话禁止型约束衰减** | 5→16 轮从 `73%` 跌至 `33%`，STD 重注入无损恢复（`arXiv:2604.20911`） | `infer_probe` 定位重注入周期 + `manual.md` 每 5–8 轮重申节律 |
+| **裁判协议漂移风险** | 同批样本换裁判 `96% vs 2.7%`，100 次重采样 `100% vs 50%`（`arXiv:2610.26595`） | `verify` 强制冻结裁判、异源双裁判 $\kappa$ + ≥10% CJE Oracle 抽检 |
+| **工作流拓扑演进规模** | `破甲制作` 15→18→**27 节点 / 69 边**；`破甲炼化` 19→**22 节点 / 41 边** | `scripts/pack_workflows.py --check` 零告警校验 + 历史版本完整保留 |
+
+```mermaid
+flowchart LR
+  subgraph Plugin["dsh-jailbreak-workflow (DSH 0.11.0 插件)"]
+    UI["React Flow 画布编辑 · 计划编译 · 实时运行追踪"]
+  end
+  subgraph Packs["dsh-workflows (研究工作流合集)"]
+    A["破甲制作 v3<br/>10 步 · 27 节点 · 69 边"]
+    B["破甲炼化 v2<br/>8 步 · 22 节点 · 41 边 · 六卷底册"]
+    C["pojia-fullflow v1<br/>10 步 · 20 节点 · 32 边"]
+    A -- "transfer_back.md 战绩回灌" --> B
+    B -- "TRANSFER-NOTES.md 六类弹药" --> A
+  end
+  Forum["O站 (openorigin.link)<br/>AI 技术开源分享论坛"]
+  UI -- "导入 .wflite.zip" --> Packs
+  Packs -. "论文复现 · 社区共建" .-> Forum
+```
+
+---
+
 ## 📋 工作流总览
 
 | 工作流 | 定位 | 规模（节点 / 边） | 内置 Skill 与资源 | 下载 |
