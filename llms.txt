@@ -1,0 +1,28 @@
+# dsh-workflows
+
+> Ready-to-run `.wflite.zip` visual workflow packages for DeepSeek Harness (`dsh-workflow-lite 0.11.0`), covering AI safety / LLM red-teaming research, structured prompt taxonomy refinement, and reverse engineering.
+
+## Documentation
+- [README.md](./README.md): Primary Chinese documentation covering all three workflows, import steps, and architecture tables.
+- [README_EN.md](./README_EN.md): Complete English documentation for international researchers and AI indexing.
+- [LICENSE](./LICENSE): MIT License.
+
+## Workflows (DSH `dsh-workflow-lite` 0.11.0)
+- `workflows/破甲制作.wflite.zip` (source: `workflows/破甲制作/`): **v3** (10 stages, 27 nodes, 69 edges). Multi-loop LLM safety & vulnerability evaluation pipeline grounded in 90+ arXiv 2024–2026 papers. Supports 5 architectures (Hybrid Frame, Identity System, Lightweight, Identity Sovereign, Codex Spirit), guardrail fingerprinting, Benign-Twin boundary sharpness, Red-Bandit/MAP-Elites callback probing, decoding/CoT/hierarchy surface profiling, 3D refusal geometry, BoN/Crescendo/X-Teaming stress testing, dual-judge CJE calibration + ablations, 3-way VERDICT routing (`pass` / `fail_prompt` / `fail_surface`), and armory feedback export (`transfer_back.md`). Bundles `jailbreak-research` skill (10 Python scripts + 6 templates).
+- `workflows/破甲炼化.wflite.zip` (source: `workflows/破甲炼化/`): **v2** (8 stages, 22 nodes, 41 edges). Converts public red-teaming corpora and live `transfer_back.md` feedback into a provenance-tracked armory (`ARSENAL.md`) and 5-architecture transfer sheet (`TRANSFER-NOTES.md`). Implements WildTeaming `Mine→Compose` + REPRO semantic crossover (`compose` stage) and continuous-score verification with soft-refusal penalties. Bundles `jb-distillery` skill (5-volume library + entry-card template).
+- `workflows/pojia-fullflow.wflite.zip` (source: `workflows/pojia-fullflow/`): **v1** (10 stages, 20 nodes, 32 edges). Binary, mobile, protocol, and crypto reverse-engineering workflow integrating with local `dsh-pojia-toolkit` (`pj_*` tools, IDA Pro `idalib`, Frida).
+
+## Research Archives (`docs/research/`)
+- [2026-11-破甲全网调研报告.md](./docs/research/2026-11-破甲全网调研报告.md): Master survey report indexing 54 corpus documents, 30 academic cards, 37 community tools, and 79+ arXiv papers.
+- [arxiv-boundary.md](./docs/research/arxiv-boundary.md): 27 arXiv papers on refusal directions, concept cones, over-refusal Pareto frontiers, steering cliffs, and instruction hierarchy.
+- [arxiv-probes.md](./docs/research/arxiv-probes.md): 24 arXiv papers on adaptive red-teaming (Red-Bandit, CRT, Rainbow Teaming, QD Evolution, Crescendo, Tempest) and judge calibration (StrongREJECT, CALM, CJE, Preference Leakage).
+- [arxiv-inference.md](./docs/research/arxiv-inference.md): 28 arXiv papers on generation exploitation, sampling/min-p/LZ-penalty, long-session Safe Turn Depth decay, and CoT reasoning safety.
+- [arxiv-frontier-2026.md](./docs/research/arxiv-frontier-2026.md): Frontier synthesis covering Best-of-N (`2412.03556`), ActorAttack (`2410.12876`), X-Teaming (`2504.13203`), AJAR (`2601.10971`), CoT Hijacking (`2510.26418`), H-CoT (`2502.12893`), and Agent/MCP security benchmarks (MSB, MCP-TDP, MCPSecBench, ASPIRE).
+- [web-academic.md](./docs/research/web-academic.md) & [web-community.md](./docs/research/web-community.md): Academic tactic cards and community ecosystem map.
+
+## Tooling & Verification (`scripts/`)
+- [scripts/pack_workflows.py](./scripts/pack_workflows.py): Validates `dsh-workflow-lite 0.11.0` schema, node colors/icons, edge integrity, skill SHA-256 hashes, and `.wflite.zip` parity. Run `python scripts/pack_workflows.py --check` for read-only verification.
+- [scripts/render_canvas.py](./scripts/render_canvas.py): Offline renderer generating DSH dark-theme WebP canvas previews (`assets/canvas-v3.webp`, `assets/canvas-distillery-v2.webp`) directly from workflow JSON.
+
+## Keywords
+DeepSeek Harness, dsh-workflow-lite, LLM red teaming, AI safety evaluation, refusal geometry, boundary probing, Chain-of-Thought safety, MCP security, adversarial robustness, arXiv red-teaming workflows, reverse engineering.

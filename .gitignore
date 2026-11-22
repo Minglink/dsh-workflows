@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local run artifacts & sensitive keys
+.env
+.env.*
+.work/
+*.log
+probe_results*.json
+callback_results*.json
+test_results*.json
+frame_perm_results*.json
+multi_turn_results*.json
+refusal_profile*.json
+stems*.json
+model_learnings_*.json
+best_prompt_*.txt
+jailbreak_prompt*.txt

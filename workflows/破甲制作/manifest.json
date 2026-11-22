@@ -1,18 +1,30 @@
 {
   "format": 1,
   "kind": "dsh-workflow-lite.workflow",
-  "plugin": "0.10.0",
-  "exportedAt": "2026-11-01T04:46:27.008Z",
+  "plugin": "0.11.0",
+  "exportedAt": "2026-11-22T20:41:39.000Z",
   "workflow": {
     "name": "破甲制作"
   },
-  "current": 1,
+  "current": 3,
   "versions": [
     {
       "n": 1,
       "createdAt": 1793508374251,
       "note": "",
       "nodeCount": 15
+    },
+    {
+      "n": 2,
+      "createdAt": 1795377600000,
+      "note": "v2：接入五架构、边界回调探测闭环、软拒三查与可选端点配置",
+      "nodeCount": 18
+    },
+    {
+      "n": 3,
+      "createdAt": 1795379400000,
+      "note": "v3：顶级模型漏洞研究十步闭环（护栏与拓扑侦察 / 孪生锐度基线 / 多臂自适应回调 / 推理与CoT面测绘 / 三维概念锥建模 / 五架构假设合成 / BoN与多轮压测 / 双裁判CJE校准与消融 / 可复现报告 / 军械库回灌）",
+      "nodeCount": 27
     }
   ],
   "assets": [],
@@ -23,73 +35,88 @@
       "files": [
         {
           "path": "SKILL.md",
-          "bytes": 38282,
-          "sha256": "26400a148c6a73c7a52f7f32a72d38acd72753221488750d1944a6be1e256d59"
+          "bytes": 57711,
+          "sha256": "71ad518b0f6900298b230d549abac83b80106b54eb8e37e744408102ecf40656"
         },
         {
           "path": "scripts/best_responses_extractor.py",
-          "bytes": 19087,
-          "sha256": "e9ab91102dc137ebd21f0e28613e825c9797167dfb4698e714598ab35374fd50"
+          "bytes": 18623,
+          "sha256": "51db63007552ae2ac21db804591fc0c107eb4f374c532d422885d005caf447ce"
+        },
+        {
+          "path": "scripts/boundary_callback_prober.py",
+          "bytes": 23586,
+          "sha256": "5c4394b4d95f73d614ccc00d33b285bef74310445d9e7d296934b869b91dc847"
         },
         {
           "path": "scripts/frame_permutation_tester.py",
-          "bytes": 56975,
-          "sha256": "63932a8d6f037637a3372a1b0b07b02f84a895e9aa52644e1c04d84e65956573"
+          "bytes": 55811,
+          "sha256": "56631afbdd2cb75543bc4d8d04c19316d081a5007c7e8398a02a5089eb68eb41"
         },
         {
           "path": "scripts/jailbreak_tester.py",
-          "bytes": 45644,
-          "sha256": "0e8e7f16c4a285a2fddd9a2a50a91701a58ff1ca0d2a94795430e99fa81e737c"
+          "bytes": 44535,
+          "sha256": "b8589b0029448c15b323951d21f4ea5ce7356a8c6bda5652780d39da37bfc603"
         },
         {
           "path": "scripts/multi_turn_tester.py",
-          "bytes": 30550,
-          "sha256": "ea67f26521d34f3e5c821a134d3264a7b020caa92dc3c7a852883fa8092dc1bf"
+          "bytes": 29924,
+          "sha256": "2c550ef92026218735d0c4e6a84020842dc7c18fa49847d8b3f7c5776d7f01ab"
         },
         {
           "path": "scripts/probe_runner.py",
-          "bytes": 93330,
-          "sha256": "82d117b8ffaee01fdb605d9a9ed6dbf2a648e3e61a586bc78901f42989d21491"
+          "bytes": 91921,
+          "sha256": "5e59f2bffc703eb1a1466e2b83342e1d0b5694185714479e7f98c41dbadf1b9a"
         },
         {
           "path": "scripts/prompt_optimizer.py",
-          "bytes": 17374,
-          "sha256": "143623c3d87dfdb8ce673793b4fbc1123f366a4e765a33f1ed5caa637fadbb6f"
+          "bytes": 16948,
+          "sha256": "6495baba67639cce14d94880e407626ec2eaab87363663f3d7791ed8a58d4879"
         },
         {
           "path": "scripts/refusal_analyzer.py",
-          "bytes": 29906,
-          "sha256": "a5ae0a22ae1c08708e61ff1b2101932f296a69ffa910426f9a6cf587845e6864"
+          "bytes": 29204,
+          "sha256": "d8e18da647d6948cca047bcd857acb012480c1bbc1dfc72bedc4f7f68e9ad84a"
         },
         {
           "path": "scripts/root_stem_extractor.py",
-          "bytes": 23367,
-          "sha256": "c983a43b99759f46d2d8cf08fceafa7d83ca1f9bef2727775a48369a0bab3f97"
+          "bytes": 22800,
+          "sha256": "7ebdccea985f58dfd15a86f2d5f4442e31e96886751f78b7e11e6f505e9d79dc"
         },
         {
           "path": "scripts/usage_guide_generator.py",
-          "bytes": 20347,
-          "sha256": "59e1c95fed51c1feac954955f2da8b0fab508de23b076775e4b3fd82ebcf0e25"
+          "bytes": 19847,
+          "sha256": "04da70473170207269d3b17eee3ca8176d6ef2c4b4f19529bad74356297c7868"
+        },
+        {
+          "path": "templates/codex-spirit-template.md",
+          "bytes": 8751,
+          "sha256": "91de7795ad1090dda4d675fb7a85130f0f74a3f0d5f15daa878eaecba4ed5710"
         },
         {
           "path": "templates/hybrid-frame-template.md",
-          "bytes": 10135,
-          "sha256": "0cafd2f62ab6a1ff8c28cb102be6019a3b00a442f18a75ff8ff4acaf312d5643"
+          "bytes": 9901,
+          "sha256": "9c6e61be106ee9558c74f0170d30be679d8a3bfceee86c54879b708ac303c854"
+        },
+        {
+          "path": "templates/identity-sovereign-template.md",
+          "bytes": 7962,
+          "sha256": "2af73cb35bf9b7a5d12fdddf3362aedc1b007ebb5e56446940ce38704765b85c"
         },
         {
           "path": "templates/identity-system-template.md",
-          "bytes": 42897,
-          "sha256": "fb136e1e9266d298ef64f7adedf53750963ac6cfbd84afd6fa159ca2f490d53e"
+          "bytes": 42160,
+          "sha256": "e6a0266947571a317e0ca40f088633a3fc185fb0df5a87e10655c49dc94228c5"
         },
         {
           "path": "templates/push-prompt-lib.md",
-          "bytes": 10394,
-          "sha256": "d05d31ec3d22ca0f7a9b044ccad425812ae3b691c3b02425d8fd2beb91536a93"
+          "bytes": 10052,
+          "sha256": "91ee57bbb3b4837683504439c36a2dbc9aa5514a45ac18c606f741bb57898f9c"
         },
         {
           "path": "templates/reference-examples.md",
-          "bytes": 25034,
-          "sha256": "3b1d75792b3cbed24939f2117af785881a69866310e4e00f0db580be8814772d"
+          "bytes": 24460,
+          "sha256": "b084ef966c7cb07517b8ce26059ab0719f2e62e27d6d4a76c22418b0602627ee"
         }
       ]
     }

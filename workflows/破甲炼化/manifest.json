@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "kind": "dsh-workflow-lite.workflow",
+  "plugin": "0.11.0",
+  "exportedAt": "2026-11-22T20:41:39.000Z",
+  "workflow": {
+    "name": "破甲炼化"
+  },
+  "current": 2,
+  "versions": [
+    {
+      "n": 1,
+      "createdAt": 1795375776007,
+      "note": "公开破甲词炼化入军械库",
+      "nodeCount": 19
+    },
+    {
+      "n": 2,
+      "createdAt": 1795379400000,
+      "note": "v2：引入 WildTeaming Mine→Compose 机制交叉配方、连续评分尺抽锋验证与「破甲制作 v3」战绩回灌闭环",
+      "nodeCount": 22
+    }
+  ],
+  "assets": [],
+  "skills": [
+    {
+      "name": "jb-distillery",
+      "source": "user-agents",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "bytes": 12647,
+          "sha256": "3a276f6b1e413625569eb49c47a9d033b9002fd6b641743e1091886c80f03145"
+        },
+        {
+          "path": "library/v1-core-meta.md",
+          "bytes": 31764,
+          "sha256": "599cc3ab4be836f49ad107a3804897739f7df720b9af6eecb9bf2472f0a9ab4f"
+        },
+        {
+          "path": "library/v2-frontier-labs.md",
+          "bytes": 55259,
+          "sha256": "5826fa93fd5b6d186cb4d22b9c67a23a028650c8bcec52352c9bf5288ce77612"
+        },
+        {
+          "path": "library/v3-cn-models.md",
+          "bytes": 36388,
+          "sha256": "f5b1cc68f5f7940360e4ce303afbe8678a413b6882237a79b9866139e1daad12"
+        },
+        {
+          "path": "library/v4-workbench-specs.md",
+          "bytes": 29444,
+          "sha256": "cec2ff762ac5e91eac25470fe6687a27531e6358ad552c3595ba810e5e131d79"
+        },
+        {
+          "path": "library/v5-agent-distros.md",
+          "bytes": 57222,
+          "sha256": "0bbb208511ffc1ccfaa18068ce0f4c9789c1513c3b73689c93ba7ca72799c6e8"
+        },
+        {
+          "path": "templates/entry-card.md",
+          "bytes": 2499,
+          "sha256": "cf1de6b53dde86021b25af1f3499277c2029aa647fb47b20bdcaa02c99f087cb"
+        }
+      ]
+    }
+  ],
+  "memories": [],
+  "external": []
+}
