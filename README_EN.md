@@ -26,11 +26,9 @@ All workflows in this repository are validated against the `dsh-workflow-lite 0.
 
 ---
 
-## 📊 Empirical Benchmarks & Symbiotic Architecture
+## 📊 Key Research Metrics & Symbiotic Architecture
 
-> All charts and metrics below are rendered directly from verified `jailbreak-research` baselines and our 90+ arXiv 2024–2026 research archives (reproducible offline via `python scripts/render_charts.py`):
-
-![Empirical Benchmarks & Architecture Dashboard: multi-stage pipeline progression, Safe Turn Depth retention line chart, workflow scale evolution, and judge calibration variance](./assets/metrics-dashboard.webp)
+> All metrics below are grounded directly in our verified `jailbreak-research` baselines and 90+ arXiv 2024–2026 research archives:
 
 | Key Research Metric | Empirical / Literature Evidence | Workflow Mechanism |
 |---|---|---|

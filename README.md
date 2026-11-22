@@ -26,11 +26,9 @@
 > [!TIP]
 > 还没装插件？去 [dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow) 看安装方法——网页版一条命令装好。
 
-## 📊 实证数据仪表板与双仓闭环架构
+## 📊 核心研究指标与双仓闭环架构
 
-> 以下图表与指标均基于本仓库 `jailbreak-research` 实证基线与 `docs/research/` 收录的 90+ 篇 arXiv 2024–2026 公开论文数据生成（支持运行 `python scripts/render_charts.py` 离线复现）：
-
-![dsh-workflows 实证数据与架构演进仪表板：多阶段流水线演进柱状图、长会话 Safe Turn Depth 折线图、工作流拓扑演进规模与双裁判校准漂移警示](./assets/metrics-dashboard.webp)
+> 以下指标均直接引自本仓 `jailbreak-research` 实证基线与 `docs/research/` 收录的 90+ 篇 arXiv 2024–2026 公开论文：
 
 | 核心研究指标 | 实证基线 / 论文依据 | 落地到的工作流机制 |
 |---|---|---|
