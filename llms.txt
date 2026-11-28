@@ -26,7 +26,7 @@
 - [scripts/render_canvas.py](./scripts/render_canvas.py): Offline renderer generating DSH dark-theme WebP canvas previews (`assets/canvas-v3.webp`, `assets/canvas-distillery-v2.webp`) directly from workflow JSON.
 
 ## Community & Forum
-- Official AI Open-Source Forum (O站 / OpenOrigin): https://openorigin.link/ (invite code: `CESFAVBR`, QQ Group: `1108766989`)
+- Official AI Open-Source Forum (O站 / OpenOrigin): https://openorigin.link/ (invite code: `CESFAVBR`, QQ Group: `1084913983`)
 - Companion Plugin: https://github.com/Minglink/dsh-jailbreak-workflow
 
 ## Keywords

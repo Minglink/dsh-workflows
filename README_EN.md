@@ -4,7 +4,7 @@
 
 **Ready-to-Run `.wflite.zip` Workflow Collection for DeepSeek Harness**
 
-[中文](./README.md) | **English** | [AI Index (`llms.txt`)](./llms.txt) · [OpenOrigin AI Forum](https://openorigin.link/) (invite: `CESFAVBR`) · QQ Group `1108766989`
+[中文](./README.md) | **English** | [AI Index (`llms.txt`)](./llms.txt) · [OpenOrigin AI Forum](https://openorigin.link/) (invite: `CESFAVBR`) · QQ Group `1084913983`
 
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-0.2.x-4d6bfe.svg)](https://github.com/deepseek-ai/deepseek-harness)
 [![dsh-workflow-lite](https://img.shields.io/badge/dsh--workflow--lite-0.11.0-0ea5e9.svg)](https://github.com/Minglink/dsh-jailbreak-workflow)
@@ -160,7 +160,7 @@ Together with [Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-
 Join **[OpenOrigin (O-Station) · AI Tech Open-Source Forum](https://openorigin.link/)** to discuss LLM safety evaluation, red-teaming research, arXiv paper reproductions, and DeepSeek Harness workflows:
 
 - **Official Forum**: [https://openorigin.link/](https://openorigin.link/) (invite code: `CESFAVBR`)
-- **QQ Group**: `1108766989`
+- **QQ Group**: `1084913983`
 - **Companion Plugin**: [Minglink/dsh-jailbreak-workflow](https://github.com/Minglink/dsh-jailbreak-workflow)
 
 ---
